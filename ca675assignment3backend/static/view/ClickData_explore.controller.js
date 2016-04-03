@@ -74,8 +74,41 @@ sap.ui
                     ClickDataExplorer.prototype.searchClickData = function(oEvent) {
                         var searchParameter = oEvent.getParameter('query');
 
+                        var aData = jQuery.ajax({
+                            type : "GET",
+                            contentType : "application/json",
+                            url : "http://localhost:5000/clickdata/page/" + searchParameter,
+                            dataType : "json",
+                            async: false,
+                            success : function(data,textStatus, jqXHR) {
+                                var results = data[0];
+                                var from =[];
+                                var to =[];
+                                results.fromPages.forEach(function(item, itemIndex) {
+                                    from.push({
+                                        article: item,
+                                        count: results.fromCounts[itemIndex],
+                                        percentage: results.fromPercentages[itemIndex]
+                                    });
+                                }, this);
+
+
+                                results.toPages.forEach(function(item, itemIndex) {
+                                    to.push({
+                                        article: item,
+                                        count: results.toCounts[itemIndex],
+                                        percentage: results.toPercentages[itemIndex]
+                                    });
+                                }, this);
+
+                                this.getView().getModel().setProperty('/query', results.pageTitle);
+                                this.getView().getModel().setProperty('/from', from); 
+                                this.getView().getModel().setProperty('/to', to); 
+                            }.bind(this)
+
+                        });     
                         // now call the sevice to update the model
-                        this.getView().getModel().setProperty('/query', searchParameter);
+                       
 
                     };
                     return ClickDataExplorer;
