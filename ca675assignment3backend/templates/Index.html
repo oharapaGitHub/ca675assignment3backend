@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html class="a-mag">
+    <head>
+        <title>ca675_cbpohjs_ui</title>
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv='Content-Type' content='text/html;charset=UTF-8'/>
+
+        <script src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
+                id="sap-ui-bootstrap"
+                data-sap-ui-libs="sap.m, sap.ui.unified"
+                data-sap-ui-preload="sync"
+                data-sap-ui-theme="sap_bluecrystal"
+                data-sap-ui-xx-bindingSyntax="complex"
+                data-sap-ui-resourceroots='{
+                    "com.dcu.ca675.ui": "../static/"
+                }'>
+        </script>
+
+        <script>
+
+        if( self === top ) {
+            document.documentElement.style.display = 'block' ;
+            }else{
+                top.location = self.location ;
+           }
+
+        sap.ui.getCore().attachInit(function() {
+            new sap.m.Shell({
+                app: new sap.ui.core.ComponentContainer({
+                    height : "100%",
+                    name : "com.dcu.ca675.ui"
+                })
+            }).placeAt("content");
+        });
+
+        </script>
+
+
+    </head>
+    <body class="sapUiBody" role="application">
+        <div id="content"></div>
+    </body>
+</html>

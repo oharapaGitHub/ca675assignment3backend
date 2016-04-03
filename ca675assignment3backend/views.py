@@ -1,25 +1,21 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Apr 02 00:12:01 2016
+import json
+from ca675assignment3backend import app
+from ca675assignment3backend.service.ClickDataImpl import ClickDataImpl
+from flask import render_template
 
-@author: I310684
-"""
-import pdb
-
-from flask import Flask
-from database.ClickDataDAO import ClickDataDAO
-
-app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return "Hello  World!"
+     return render_template('Index.html')
 
 @app.route('/clickdata/page/<string:pageTitle>', methods=['GET'])
 def get_tasks(pageTitle):
-    pdb.set_trace()
-    clickDataDAO = ClickDataDAO()
-    return clickDataDAO.readByPageTitle(pageTitle)
+
+    clickDataImpl= ClickDataImpl()
+    clickdatadetails = clickDataImpl.readData(pageTitle)
+    #print(clickdatadetails.pageTitle)
+    jsonobject = json.dumps(clickdatadetails)
+    return jsonobject
 
     
 @app.route("/Authenticate")
@@ -33,8 +29,3 @@ def Authenticate():
      return "Username or Password is wrong"
     else:
      return "Logged in successfully"
-
-if __name__ == "__main__":
-    app.run()
-    
-    

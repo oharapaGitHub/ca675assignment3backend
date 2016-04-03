@@ -1,0 +1,8 @@
+<mvc:View
+	xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true"
+	controllerName="com.dcu.ca675.ui.view.AppRoot"
+	xmlns:sapm="sap.m">
+	<sapm:App id="rootAppControl" defaultTransitionName="show"/>
+
+</mvc:View>

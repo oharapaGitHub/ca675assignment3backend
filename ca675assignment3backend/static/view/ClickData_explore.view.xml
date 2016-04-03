@@ -1,0 +1,112 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core"
+	controllerName="com.dcu.ca675.ui.view.ClickData_explore" xmlns:l="sap.ui.layout"
+	xmlns:sapm="sap.m"
+	xmlns:html="http://www.w3.org/1999/xhtml">
+
+			<sapm:Panel>
+				<sapm:headerToolbar>
+					<sapm:Toolbar>
+						<sapm:Label text="Search" width="50px"/>
+						<sapm:ToolbarSpacer/>
+
+						<sapm:SearchField placeholder="Enter title of wiki page to search for here" search=".searchClickData"/>
+					</sapm:Toolbar>
+				</sapm:headerToolbar>
+				<sapm:Text text="{/query}" />
+				<sapm:FlexBox
+					alignItems="Start"
+					justifyContent="Center">
+
+					<sapm:Table 
+						inset="false"
+						items="{
+							path: '/from'
+						}" >
+						<sapm:headerToolbar>
+							<sapm:Toolbar>
+								<sapm:Title text="From" level="H2"/>
+							</sapm:Toolbar>
+						</sapm:headerToolbar>
+		
+						<sapm:columns>
+							<sapm:Column
+								width="12em">
+								<sapm:Text text="Top Articles" />
+							</sapm:Column>
+		
+							<sapm:Column
+								minScreenWidth="Tablet"
+								demandPopin="true">
+								<sapm:Text text="Count" />
+							</sapm:Column>
+							<sapm:Column
+								minScreenWidth="Tablet"
+								demandPopin="true"
+								hAlign="Right">
+							<sapm:Text text="%" />
+							</sapm:Column>
+						</sapm:columns>	
+	
+						<sapm:items>
+							<sapm:ColumnListItem>
+								<sapm:cells>
+									<sapm:Text
+										text="{article}" />
+									<sapm:Text
+										text="{count}" />
+									<sapm:Text
+										text="{percentage}" />
+								</sapm:cells>
+							</sapm:ColumnListItem>
+						</sapm:items>
+					</sapm:Table>
+
+					<sapm:Table 
+						inset="false"
+						items="{
+						path: '/to'
+						}">
+						<sapm:headerToolbar>
+							<sapm:Toolbar>
+								<sapm:Title text="To" level="H2"/>
+							</sapm:Toolbar>
+						</sapm:headerToolbar>
+		
+						<sapm:columns>
+							<sapm:Column
+								width="12em">
+								<sapm:Text text="Top Articles" />
+							</sapm:Column>
+	
+							<sapm:Column
+								minScreenWidth="Tablet"
+								demandPopin="true">
+								<sapm:Text text="Count" />
+							</sapm:Column>
+							<sapm:Column
+								minScreenWidth="Tablet"
+								demandPopin="true"
+								hAlign="Right">
+								<sapm:Text text="%" />
+							</sapm:Column>
+						</sapm:columns>	
+	
+						<sapm:items>
+							<sapm:ColumnListItem>
+								<sapm:cells>
+									<sapm:Text
+										text="{article}" />
+									<sapm:Text
+										text="{count}" />
+									<sapm:Text
+										text="{percentage}" />
+								</sapm:cells>
+							</sapm:ColumnListItem>
+						</sapm:items>
+					</sapm:Table>
+			
+				</sapm:FlexBox>
+		
+			</sapm:Panel>
+
+</mvc:View>

@@ -5,13 +5,14 @@ Created on Sat Apr 02 19:00:52 2016
 @author: I310684
 """
 
+import ClickDataDetails
+from ca675assignment3backend.database.ClickDataDAO import ClickDataDAO
 
-from database.ClickDataDAO import ClickDataDAO
 
 class ClickDataImpl:
-    def readData(self):
+    def readData(self, pageTitle):
         clickDataDAO = ClickDataDAO()
-        clickData = clickDataDAO.readByPageTitle('David_Bowie')
+        clickData = clickDataDAO.readByPageTitle(pageTitle)
 
         ## read the data and return in json format
         data = [ { 
@@ -24,6 +25,16 @@ class ClickDataImpl:
             'toPercentages': self.getPercentagesFromCounts(clickData[4]),
             'jsonContent': clickData[5].strip('[').strip(']').strip().split(',')
             } ]
+        output = ClickDataDetails.ClickDataDetails(clickData[0], self.toList(clickData[1]),
+                                self.toList(clickData[2]),
+                                self.getPercentagesFromCounts(clickData[2]),
+                                self.toList(clickData[3]),
+                                self.toList(clickData[4]),
+                                self.getPercentagesFromCounts(clickData[4]),
+                                clickData[5].strip('[').strip(']').strip().split(',')
+                                )
+                                
+                            
         return data
 
     def getPercentagesFromCounts(self, counts):
