@@ -4,24 +4,24 @@ Created on Sat Apr 02 00:12:01 2016
 
 @author: I310684
 """
-from flask import Flask
-from flaskext.mysql import MySQL
- 
-mysql = MySQL()
-app = Flask(__name__)
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'Password1'
-app.config['MYSQL_DATABASE_DB'] = 'ca676Assignment3'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-mysql.init_app(app)
+import pdb
 
- 
+from flask import Flask
+from database.ClickDataDAO import ClickDataDAO
+
 app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return "Hello World!"
+    return "Hello  World!"
 
+@app.route('/clickdata/page/<string:pageTitle>', methods=['GET'])
+def get_tasks(pageTitle):
+    pdb.set_trace()
+    clickDataDAO = ClickDataDAO()
+    return clickDataDAO.readByPageTitle(pageTitle)
+
+    
 @app.route("/Authenticate")
 def Authenticate():
     username = request.args.get('UserName')
