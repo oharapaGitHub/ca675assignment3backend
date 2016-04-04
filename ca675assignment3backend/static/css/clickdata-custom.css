@@ -29,6 +29,15 @@
 	height: 400px;
 }
 
+/**
+ * Style the header that holds the results of a search query
+ * representin the titel
+ */
+.searchedQuery{
+    text-align: center;
+    width: 100%;
+    font-size: larger;
+}
 
 .clickdatachart {
 	height: 400px;

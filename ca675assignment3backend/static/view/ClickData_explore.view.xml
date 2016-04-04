@@ -12,7 +12,7 @@
 						<sapm:SearchField placeholder="Enter title of wiki page to search for here" search=".searchClickData"/>
 					</sapm:Toolbar>
 				</sapm:headerToolbar>
-				<sapm:Text class="searchedQuery" text="{/query}" />
+				<sapm:Text class="searchedQuery" text="{/query}" textAlign="Center"/>
 				<sapm:FlexBox class="queryresults"
 					alignItems="Start"
 					justifyContent="Center">
