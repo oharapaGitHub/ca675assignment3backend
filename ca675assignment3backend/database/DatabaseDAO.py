@@ -21,7 +21,6 @@ def read(sqlStatement, data):
     # attempt to read the record    
     cursor.execute(sqlStatement, data)
     result = cursor.fetchone()
-    print(result)
     db.close()   
     return result
    
