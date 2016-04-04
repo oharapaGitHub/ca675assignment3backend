@@ -3,7 +3,7 @@
 	xmlns:sapm="sap.m"
 	xmlns:html="http://www.w3.org/1999/xhtml">
 
-			<sapm:Panel>
+			<sapm:Panel class="searchBar">
 				<sapm:headerToolbar>
 					<sapm:Toolbar>
 						<sapm:Label text="Search" width="50px"/>
@@ -12,12 +12,13 @@
 						<sapm:SearchField placeholder="Enter title of wiki page to search for here" search=".searchClickData"/>
 					</sapm:Toolbar>
 				</sapm:headerToolbar>
-				<sapm:Text text="{/query}" />
-				<sapm:FlexBox
+				<sapm:Text class="searchedQuery" text="{/query}" />
+				<sapm:FlexBox class="queryresults"
 					alignItems="Start"
 					justifyContent="Center">
 
 					<sapm:Table 
+						class="queryResultsTable frompages"
 						inset="false"
 						items="{
 							path: '/from'
@@ -29,17 +30,16 @@
 						</sapm:headerToolbar>
 		
 						<sapm:columns>
-							<sapm:Column
-								width="12em">
+							<sapm:Column class="toparticles" width="74%">
 								<sapm:Text text="Top Articles" />
 							</sapm:Column>
 		
-							<sapm:Column
+							<sapm:Column class="articlecount"
 								minScreenWidth="Tablet"
 								demandPopin="true">
 								<sapm:Text text="Count" />
 							</sapm:Column>
-							<sapm:Column
+							<sapm:Column class="articlepercentage"
 								minScreenWidth="Tablet"
 								demandPopin="true"
 								hAlign="Right">
@@ -62,6 +62,7 @@
 					</sapm:Table>
 
 					<sapm:Table 
+						class="queryResultsTable topages"
 						inset="false"
 						items="{
 						path: '/to'
@@ -74,16 +75,16 @@
 		
 						<sapm:columns>
 							<sapm:Column
-								width="12em">
+								 class="toparticles" width="74%">
 								<sapm:Text text="Top Articles" />
 							</sapm:Column>
 	
-							<sapm:Column
+							<sapm:Column class="articlecount"
 								minScreenWidth="Tablet"
 								demandPopin="true">
 								<sapm:Text text="Count" />
 							</sapm:Column>
-							<sapm:Column
+							<sapm:Column class="articlepercentage"
 								minScreenWidth="Tablet"
 								demandPopin="true"
 								hAlign="Right">
@@ -106,7 +107,13 @@
 					</sapm:Table>
 			
 				</sapm:FlexBox>
-		
-			</sapm:Panel>
 
+			
+			</sapm:Panel>
+			<sapm:Panel class="clickdatachart">
+					<html:p id="chart" class="clickdatachart-p">
+						chart goes here.	
+
+					</html:p>
+				</sapm:Panel>
 </mvc:View>
