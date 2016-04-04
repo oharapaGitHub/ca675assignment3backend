@@ -22,19 +22,15 @@ class ClickDataImpl:
             'fromPercentages': self.getPercentagesFromCounts(clickData[2]),
             'toPages': self.toList(clickData[3]),
             'toCounts': self.toList(clickData[4]),
-            'toPercentages': self.getPercentagesFromCounts(clickData[4]),
-            'jsonContent': clickData[5].strip('[').strip(']').strip().split(',')
+            'toPercentages': self.getPercentagesFromCounts(clickData[4])
             } ]
         output = ClickDataDetails.ClickDataDetails(clickData[0], self.toList(clickData[1]),
                                 self.toList(clickData[2]),
                                 self.getPercentagesFromCounts(clickData[2]),
                                 self.toList(clickData[3]),
                                 self.toList(clickData[4]),
-                                self.getPercentagesFromCounts(clickData[4]),
-                                clickData[5].strip('[').strip(']').strip().split(',')
+                                self.getPercentagesFromCounts(clickData[4])
                                 )
-                                
-                            
         return data
 
     def getPercentagesFromCounts(self, counts):
@@ -56,4 +52,4 @@ class ClickDataImpl:
         return map(int, percentageList)
     
     def toList(self,clickDataOutput):    
-        return clickDataOutput.strip('[').strip(']').strip().split(',')
+        return clickDataOutput.strip('[').strip(']').strip().split(' ')

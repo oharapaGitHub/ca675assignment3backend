@@ -22,7 +22,7 @@ def readData():
         'toPages': toList(clickData[3]),
         'toCounts': toList(clickData[4]),
         'toPercentages': getPercentagesFromCounts(clickData[4]),
-        'jsonContent': clickData[5].strip('[').strip(']').strip().split(',')
+        'jsonContent': clickData[5].strip('[').strip(']').split(' ')
     } ]
     return data
   
@@ -45,4 +45,4 @@ def getPercentagesFromCounts(counts):
     return map(int, percentageList)
     
 def toList(clickDataOutput):    
-    return clickDataOutput.strip('[').strip(']').strip().split(',')
+    return clickDataOutput.strip('[').strip(']').split(' ')
