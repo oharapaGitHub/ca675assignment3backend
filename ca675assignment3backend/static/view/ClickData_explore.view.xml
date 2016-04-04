@@ -111,9 +111,6 @@
 			
 			</sapm:Panel>
 			<sapm:Panel class="clickdatachart">
-					<html:p id="chart" class="clickdatachart-p">
-						chart goes here.	
-
-					</html:p>
-				</sapm:Panel>
+					<html:p id="chart" class="clickdatachart-p"/>
+			</sapm:Panel>
 </mvc:View>
