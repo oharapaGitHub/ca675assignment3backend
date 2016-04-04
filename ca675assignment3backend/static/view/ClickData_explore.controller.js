@@ -1,7 +1,5 @@
 /**
- * Manages and displays the results of a Key Influencer analysis and Outliners service call. Handles triggering
- * services, polling services and manipulating the dom to render the results of the service calls. It also handles user
- * interactions with the rendered elements.
+ * Controller to hold the main .
  */
 sap.ui
         .define(
@@ -66,6 +64,15 @@ sap.ui
 
                         this.getView().setModel(clickDataStored, this.STORED_CLICK_DATA);
 
+                    };
+
+                    /**
+                     * Callback to handle the scenario where the an error occured in the attempted retrieval of 
+                     * click data based on the query term.
+                     * 
+                     */
+                    ClickDataExplorer.prototype.onQueryError = function(data, textStatus, jqXHR) {
+                        sap.m.MessageToast.show("Failed to find any items for search parameter");
                     };
 
                     /**
@@ -226,20 +233,36 @@ sap.ui
                     /**
                      * Search the click data and update the model with the results
                      */
+                    ClickDataExplorer.prototype.getClickDataForListItem = function(oEvent) {
+                        
+                        // the query parameter will always be the first cell item
+                        var searchParameter = oEvent.mParameters.listItem.mAggregations.cells[0].mProperties.text;
+                        this.invokeBackendService("http://localhost:5000/clickdata/page/" + searchParameter);
+                    };
+
+                    /**
+                     * Search the click data and update the model with the results
+                     */
                     ClickDataExplorer.prototype.searchClickData = function(oEvent) {
                         var searchParameter = oEvent.getParameter('query');
+                        this.invokeBackendService("http://localhost:5000/clickdata/page/" + searchParameter);
+
+                    };
+
+                                        /**
+                     * Search the click data and update the model with the results
+                     */
+                    ClickDataExplorer.prototype.invokeBackendService = function(queryURL) {
 
                         var aData = jQuery.ajax({
                             type : "GET",
                             contentType : "application/json",
-                            url : "http://localhost:5000/clickdata/page/" + searchParameter,
+                            url : queryURL,
                             dataType : "json",
                             async: false,
-                            success : this.onQuerySucess.bind(this)
+                            success : this.onQuerySucess.bind(this),
+                            error: this.onQueryError.bind(this)
                         });     
-                        // now call the sevice to update the model
-                       
-
                     };
                     return ClickDataExplorer;
                 }, true);

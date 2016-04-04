@@ -20,9 +20,11 @@
 					<sapm:Table 
 						class="queryResultsTable frompages"
 						inset="false"
+						mode="SingleSelectMaster"
 						items="{
 							path: '/from'
-						}" >
+						}" 
+						selectionChange=".getClickDataForListItem">
 						<sapm:headerToolbar>
 							<sapm:Toolbar>
 								<sapm:Title text="From" level="H2"/>
@@ -64,9 +66,11 @@
 					<sapm:Table 
 						class="queryResultsTable topages"
 						inset="false"
+						mode="SingleSelectMaster"
 						items="{
 						path: '/to'
-						}">
+						}"
+						selectionChange=".getClickDataForListItem">
 						<sapm:headerToolbar>
 							<sapm:Toolbar>
 								<sapm:Title text="To" level="H2"/>
@@ -96,7 +100,8 @@
 							<sapm:ColumnListItem>
 								<sapm:cells>
 									<sapm:Text
-										text="{article}" />
+										text="{article}"
+										press=".searchClickData" />
 									<sapm:Text
 										text="{count}" />
 									<sapm:Text
