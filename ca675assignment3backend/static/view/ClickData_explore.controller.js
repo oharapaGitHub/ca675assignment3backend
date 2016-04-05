@@ -1,5 +1,21 @@
 /**
- * Controller to hold the main .
+ * Disclaimer: Submitted to Dublin City University, School of Computing for module CA675: Cloud
+ * Technologies, 2016. We hereby certify that the work presented and the material contained
+ * herein is our own except where explicitly stated references to other material are made.
+ * 
+ * Author, StudentId, Email
+ * - John Segrave, 14212108, john.segravedaly2@mail.dcu.ie
+ * - Paul O'Hara, 14212372, paul.ohara6@mail.dcu.ie
+ * - Claire Breslin, 14210826, claire.breslin4@mail.dcu.ie
+ * 
+ * Code available online:
+ * https://github.com/oharapaGitHub/ca675assignment3backend
+ */
+
+/**
+ * Controller for the UI of the click data application.  Controls the interaction 
+ * between the various UI controls, and communication with the backend
+ * services that provide the data for the clid data application.
  */
 sap.ui
         .define(
@@ -12,40 +28,27 @@ sap.ui
                             "com.dcu.ca675.ui.view.ClickData_explore", {
 
                             });
-
-                    /**
-                     * Constants for model used with this view, could use default but will set it
-                     * for now
-                     */
-                    ClickDataExplorer.prototype.STORED_CLICK_DATA = "clickdata";
-
                     /**
                      * Called when a controller is instantiated and its View controls (if available) are already
                      * created. Can be used to modify the View before it is displayed, to bind event handlers and do
                      * other one-time initialization.
                      *
-                     * @memberOf exploreanalytics.exploreanalyticsview
                      */
                     ClickDataExplorer.prototype.onInit = function() {
 
+                        // properties used to hold a reference to the selected items in the 
+                        // to and from lists
                         this._selectedFromListItem = null;
                         this._selectedToListItem = null;
+
+                        // initialise the models used by the related view
                         this.initModels();
                     };
 
                     /**
-                     * Initialise the model used by this view.
+                     * Initialise the model used by the view related to this controller.
                      */
                     ClickDataExplorer.prototype.initModels = function() {
-
-
-
-                        var clickDataStored = new sap.ui.model.json.JSONModel({
-                            query : null,
-                            from: [],
-                            to: []
-                        });
-
 
                         var clickData = new sap.ui.model.json.JSONModel({
                             query: '',
@@ -64,28 +67,37 @@ sap.ui
 
                         this.getView().setModel(clickData);
 
-                        this.getView().setModel(clickDataStored, this.STORED_CLICK_DATA);
-
                     };
 
                     /**
                      * Callback to handle the scenario where the an error occured in the attempted retrieval of 
-                     * click data based on the query term.
+                     * click data based on the query term.    
                      * 
+                     * On error, a toast is display to the user stating no items were returned to the user for
+                     * the search parameter used. 
                      */
-                    ClickDataExplorer.prototype.onQueryError = function(data, textStatus, jqXHR) {
+                    ClickDataExplorer.prototype.onQueryError = function() {
                         sap.m.MessageToast.show("Failed to find any items for search parameter");
                     };
 
                     /**
                      * Search the click data and update the model with the results
+                     * @param {object} data the resutls data returned from the response
+                     * @param {string} testStatus status code providing additional information on the state of the successful 
+                     *                            query
+                     * @param {object} jqXHR The jqXHR (jQuery XMLHttpRequest) object, replaces the browser native XMLHttpRequest
                      */
                     ClickDataExplorer.prototype.onQuerySucess = function(data,textStatus, jqXHR) {
+                        // retrieve the results data from the response 
                         var queryResultsData = data[0];
+
+                        // reset the selected items in the to and from list
                         this.resetSelectedFromList();
                         this.resetSelectedToList();
                         this._selectedFromListItem=null;
                         this._selectedToListItem=null;
+
+                        // update the to and from lists, and related visualisation
                         this.updateQueryTables(queryResultsData);
                         this.updateQueryVisualisation(queryResultsData);
 
@@ -145,7 +157,7 @@ sap.ui
 
                     /**
                      * Updates the query results visualisation with the content of search results
-                     * @param  {[type]} queryResultData josn object contaiing the results of the click data query
+                     * @param  {object} queryResultData josn object contaiing the results of the click data query
                      */
                     ClickDataExplorer.prototype.updateQueryVisualisation = function(queryResultData) {
                         // TODO: Implement
@@ -177,7 +189,7 @@ sap.ui
                         var path = sankey.link();
 
                         // load the data
-                        d3.json("../static/sampledata/sankeygreenhouse.json", function(error, graph) {
+                        d3.json("../static/thirdparty/sampledata/sankeygreenhouse.json", function(error, graph) {
                             var nodeMap = {};
                             graph.nodes.forEach(function(x) { nodeMap[x.name] = x; });
                                 graph.links = graph.links.map(function(x) {
@@ -259,7 +271,13 @@ sap.ui
                         });
                     };
 
-
+                    /**
+                     * Search the click data and update the model with the results based on the user selecting an 
+                     * item related to the 'from' list
+                     * 
+                     * @param {object} oEvent the event object containing the selected wiki page title
+                     *                        to be passed as the page title in the rest query
+                     */
                     ClickDataExplorer.prototype.fromListItemSelected = function(oEvent) {
                         // deselect selected to list item, if one selected
                         this.resetSelectedToList();
@@ -270,6 +288,13 @@ sap.ui
 
                     };
 
+                    /**
+                     * Search the click data and update the model with the results based on the user selecting an 
+                     * item related to the 'to' list
+                     * 
+                     * @param {object} oEvent the event object containing the selected wiki page title
+                     *                        to be passed as the page title in the rest query
+                     */
                     ClickDataExplorer.prototype.toListItemSelected = function(oEvent) {
                         // deselect selected from list item, if one selected
                         this.resetSelectedFromList();
@@ -281,6 +306,9 @@ sap.ui
 
                     /**
                      * Search the click data and update the model with the results
+                     * 
+                     * @param {object} oEvent the event object containing the selected wiki page title
+                     *                        to be passed as the page title in the rest query
                      */
                     ClickDataExplorer.prototype.getClickDataForListItem = function(oEvent) {
                         
@@ -291,6 +319,8 @@ sap.ui
 
                     /**
                      * Search the click data and update the model with the results
+                     * @param {object} oEvent the event object containing the searched for wiki page title
+                     *                        to be passes as the page title in the rest query
                      */
                     ClickDataExplorer.prototype.searchClickData = function(oEvent) {
                         var searchParameter = oEvent.getParameter('query');
@@ -298,8 +328,9 @@ sap.ui
 
                     };
 
-                                        /**
+                    /**
                      * Search the click data and update the model with the results
+                     * @param {string} queryURL the restful url to be called
                      */
                     ClickDataExplorer.prototype.invokeBackendService = function(queryURL) {
 
