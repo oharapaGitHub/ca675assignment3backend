@@ -1,20 +1,44 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sat Apr 02 16:27:42 2016
-
-@author: I310684
-"""
+"""                                                                                              
+   Disclaimer: Submitted to Dublin City University, School of Computing for module CA675: Cloud      
+   Technologies, 2016. We hereby certify that the work presented and the material contained          
+   herein is our own except where explicitly stated references to other material are made.           
+                                                                                                     
+   Author, StudentId, Email                                                                          
+   - John Segrave, 14212108, john.segravedaly2@mail.dcu.ie                                           
+   - Paul O'Hara, 14212372, paul.ohara6@mail.dcu.ie                                                  
+   - Claire Breslin, 14210826, claire.breslin4@mail.dcu.ie                                           
+                                                                                                     
+   Code available online:                                                                            
+     https://github.com/oharapaGitHub/ca675assignment3backend                                        
+"""  
 import pymysql
 
 #connect to db
 def getConnection(host, port, user, password, dbname): 
-    #db = pymysql.connect(host="localhost", port=3306, user="root", passwd="Password1", db="ca675Assignment3" )
+    """ 
+     Retrives a connection to the mySQL database
+     
+     Keyword arguments:
+     host -- the host location of the database, default "localhost"
+     port -- the port number for the database, default 3306
+     user -- the user to connect to the database as, default "root"
+     password -- the password for the user connecting to the database as, default "Password1"
+     dbname -- the name of the database to connect to, default "ca675Assignment3"
+    """ 
     db = pymysql.connect(host=host, port=port, user=user, passwd=password, db=dbname )
     return db
  
    
 # Insert new record
 def read(sqlStatement, data):
+    """ 
+     Read a record from the database
+     
+     Keyword arguments:
+     sqlStatement -- the read SQL statement to be executed
+     data -- the data to used as parameters as part of the SQL statement
+    """     
     db = getConnection("localhost", 3306, "root", "Password1", "ca675Assignment3" )    
     #setup cursor
     cursor = db.cursor() 
@@ -26,6 +50,13 @@ def read(sqlStatement, data):
    
 # Insert new record
 def insert(sqlStatement, data):
+    """ 
+     Inserts a record into the database
+     
+     Keyword arguments:
+     sqlStatement -- the insert SQL statement to be executed
+     data -- the data to be inserted into the database as part of the SQL statement
+    """ 
     db = getConnection("localhost", 3306, "root", "Password1", "ca675Assignment3" )    
     #setup cursor
     cursor = db.cursor() 
