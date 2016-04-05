@@ -18,7 +18,7 @@ import pandas as pd
 
 class ClickDataDAO:
     """
-        Data Access Object for the clic data. Provides insert, read and 
+        Data Access Object for the click data. Provides insert, read and 
         operations for accessing the click data map reduce results.
     """    
 
