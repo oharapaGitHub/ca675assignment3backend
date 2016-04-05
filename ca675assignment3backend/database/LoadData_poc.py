@@ -4,7 +4,7 @@ Created on Sat Apr 02 09:57:56 2016
 
 @author: I310684
 """
-
+import pymysql
 
 
 # insert new row to click data 

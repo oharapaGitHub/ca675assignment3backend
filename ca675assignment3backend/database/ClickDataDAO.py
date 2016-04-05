@@ -13,7 +13,7 @@ class ClickDataDAO:
             return df;
 
     def loadClickDataThroughCSV(self):
-        clickDataUrl = './data/demo/2015_2_clickstream_bowie_UTF8_RESULTS v3.tsv'
+        clickDataUrl = './data/demo/2015_2_clickstream_bowie_rows_UTF8_RESULTS.tsv'
         dataFrameIn = self.readCSV(clickDataUrl)
         for index, row in dataFrameIn.iterrows():
             self.insertClickData(row['PageTitle'].strip(), row['FromPage'].strip(), row['FromCount'].strip(),row['ToPage'].strip(),row['ToCount'].strip())

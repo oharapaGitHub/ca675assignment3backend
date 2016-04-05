@@ -28,6 +28,8 @@ sap.ui
                      */
                     ClickDataExplorer.prototype.onInit = function() {
 
+                        this._selectedFromListItem = null;
+                        this._selectedToListItem = null;
                         this.initModels();
                     };
 
@@ -80,8 +82,35 @@ sap.ui
                      */
                     ClickDataExplorer.prototype.onQuerySucess = function(data,textStatus, jqXHR) {
                         var queryResultsData = data[0];
+                        this.resetSelectedFromList();
+                        this.resetSelectedToList();
+                        this._selectedFromListItem=null;
+                        this._selectedToListItem=null;
                         this.updateQueryTables(queryResultsData);
                         this.updateQueryVisualisation(queryResultsData);
+
+                    };
+
+                    /**
+                     * Resets the selected itmes in the from list after a successful result is returned from
+                     * a call to retrieve the click data results for a page.  The currently stored item in the
+                     * from list is set to deselected
+                     */
+                    ClickDataExplorer.prototype.resetSelectedFromList = function() {
+                        if(this._selectedFromListItem) {
+                            this._selectedFromListItem.setSelected(false);
+                        }
+                    };
+
+                    /**
+                     * Resets the selected itmes in the to list after a successful result is returned from
+                     * a call to retrieve the click data results for a page.  The currently stored item in the
+                     * to list is set to deselected
+                     */
+                    ClickDataExplorer.prototype.resetSelectedToList = function() {
+                        if(this._selectedToListItem) {
+                            this._selectedToListItem.setSelected(false);
+                        }
                     };
 
                     /**
@@ -228,6 +257,26 @@ sap.ui
                                 link.attr("d", path);
                             }
                         });
+                    };
+
+
+                    ClickDataExplorer.prototype.fromListItemSelected = function(oEvent) {
+                        // deselect selected to list item, if one selected
+                        this.resetSelectedToList();
+                        // update the stored from selected item
+                        this._selectedFromListItem = oEvent.getParameters().listItem;
+                        // call the service to retrieve the click data
+                        this.getClickDataForListItem(oEvent);
+
+                    };
+
+                    ClickDataExplorer.prototype.toListItemSelected = function(oEvent) {
+                        // deselect selected from list item, if one selected
+                        this.resetSelectedFromList();
+                        // update the stored to selected item
+                        this._selectedToListItem = oEvent.getParameters().listItem;
+                        // call the service to retrieve the click data
+                        this.getClickDataForListItem(oEvent);
                     };
 
                     /**

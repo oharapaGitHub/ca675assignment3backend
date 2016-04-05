@@ -18,13 +18,14 @@
 					justifyContent="Center">
 
 					<sapm:Table 
+						id="fromTable"
 						class="queryResultsTable frompages"
 						inset="false"
 						mode="SingleSelectMaster"
 						items="{
 							path: '/from'
 						}" 
-						selectionChange=".getClickDataForListItem">
+						selectionChange=".fromListItemSelected">
 						<sapm:headerToolbar>
 							<sapm:Toolbar>
 								<sapm:Title text="From" level="H2"/>
@@ -63,14 +64,15 @@
 						</sapm:items>
 					</sapm:Table>
 
-					<sapm:Table 
+					<sapm:Table
+						id="toTable" 
 						class="queryResultsTable topages"
 						inset="false"
 						mode="SingleSelectMaster"
 						items="{
 						path: '/to'
 						}"
-						selectionChange=".getClickDataForListItem">
+						selectionChange=".toListItemSelected">
 						<sapm:headerToolbar>
 							<sapm:Toolbar>
 								<sapm:Title text="To" level="H2"/>
