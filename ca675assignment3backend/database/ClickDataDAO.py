@@ -30,7 +30,7 @@ class ClickDataDAO:
            Keyword arguments:
            url -- the location of the csv file to be read
        """
-       df = pd.read_csv(url, names=['PageTitle','FromPage','FromCount','ToPage','ToCount'], sep='\t');
+       df = pd.read_csv(url, names=['PageTitle','FromPage','FromCount','ToPage','ToCount'], sep='\t', chunksize=10000, encoding='utf8');
        return df;
 
     def loadClickDataThroughCSV(self):
@@ -39,10 +39,17 @@ class ClickDataDAO:
            by the application.
            
         """
-        clickDataUrl = './data/demo/2015_2_clickstream_bowie_rows_UTF8_RESULTS.tsv'
-        dataFrameIn = self.readCSV(clickDataUrl)
-        for index, row in dataFrameIn.iterrows():
-            self.insertClickData(row['PageTitle'].strip(), row['FromPage'].strip(), row['FromCount'].strip(),row['ToPage'].strip(),row['ToCount'].strip())
+        clickDataUrl = './data/demo/2016_03_clickstream_UTF8_RESULTS.tsv.gz'
+        TextFileReader =self.readCSV(clickDataUrl)
+        for dataFrameIn in TextFileReader:
+            databaseConnection = DatabaseDAO.getConnection("localhost", 3306, "root", "Password1", "ca675Assignment3" )
+            for index, row in dataFrameIn.iterrows():
+                self.insertClickData(row['PageTitle'], row['FromPage'].strip(), row['FromCount'].strip(),row['ToPage'].strip(),row['ToCount'].strip())
+            try:
+                databaseConnection.commit()
+            except:     
+                databaseConnection.rollback()
+            databaseConnection.close()
 
     def readByPageTitle(self, pageTitle):
         """

@@ -26,7 +26,7 @@ def getConnection(host, port, user, password, dbname):
      password -- the password for the user connecting to the database as, default "Password1"
      dbname -- the name of the database to connect to, default "ca675Assignment3"
     """ 
-    db = pymysql.connect(host=host, port=port, user=user, passwd=password, db=dbname )
+    db = pymysql.connect(host=host, port=port, user=user, passwd=password, db=dbname, encoding="utf8" )
     return db
  
    
@@ -49,7 +49,7 @@ def read(sqlStatement, data):
     return result
    
 # Insert new record
-def insert(sqlStatement, data):
+def insert(sqlStatement, data, db):
     """ 
      Inserts a record into the database
      
@@ -57,14 +57,12 @@ def insert(sqlStatement, data):
      sqlStatement -- the insert SQL statement to be executed
      data -- the data to be inserted into the database as part of the SQL statement
     """ 
-    db = getConnection("localhost", 3306, "root", "Password1", "ca675Assignment3" )    
+      
     #setup cursor
     cursor = db.cursor() 
 
     # attempt to insert the record    
     try:
         cursor.execute(sqlStatement, data)
-        db.commit()
     except:     
         db.rollback()
-    db.close()
