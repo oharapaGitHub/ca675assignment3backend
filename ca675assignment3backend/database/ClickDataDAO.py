@@ -44,7 +44,7 @@ class ClickDataDAO:
         for dataFrameIn in TextFileReader:
             databaseConnection = DatabaseDAO.getConnection("localhost", 3306, "root", "Password1", "ca675Assignment3" )
             for index, row in dataFrameIn.iterrows():
-                self.insertClickData(row['PageTitle'], row['FromPage'].strip(), row['FromCount'].strip(),row['ToPage'].strip(),row['ToCount'].strip())
+                self.insertClickData(row['PageTitle'], row['FromPage'].strip(), row['FromCount'].strip(),row['ToPage'].strip(),row['ToCount'].strip(), databaseConnection)
             try:
                 databaseConnection.commit()
             except:     
@@ -62,7 +62,7 @@ class ClickDataDAO:
                         " WHERE pageTitle = %s ")
         return DatabaseDAO.read(readByPageTitle, (pageTitle))
 
-    def insertClickData(self, pageTitle, fromPage, fromCount, toPage, toCount):
+    def insertClickData(self, pageTitle, fromPage, fromCount, toPage, toCount, databaseConnection):
         """
            Inserts a click data record into the database
            
@@ -80,4 +80,4 @@ class ClickDataDAO:
                    "(pagetitle, `from`, fromCount, `to`, toCount) "
                    "VALUES (%s, %s, %s, %s, %s);")
         add_clickData= (pageTitle, fromPage, fromCount, toPage, toCount)
-        DatabaseDAO.insert(create_clickData, add_clickData)
+        DatabaseDAO.insert(create_clickData, add_clickData, databaseConnection)

@@ -26,7 +26,7 @@ def getConnection(host, port, user, password, dbname):
      password -- the password for the user connecting to the database as, default "Password1"
      dbname -- the name of the database to connect to, default "ca675Assignment3"
     """ 
-    db = pymysql.connect(host=host, port=port, user=user, passwd=password, db=dbname, encoding="utf8" )
+    db = pymysql.connect(host=host, port=port, user=user, passwd=password, db=dbname, charset="utf8" )
     return db
  
    
@@ -56,6 +56,7 @@ def insert(sqlStatement, data, db):
      Keyword arguments:
      sqlStatement -- the insert SQL statement to be executed
      data -- the data to be inserted into the database as part of the SQL statement
+     db -- the database connection
     """ 
       
     #setup cursor
