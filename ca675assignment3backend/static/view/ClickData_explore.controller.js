@@ -132,8 +132,16 @@ sap.ui
                      */
                     ClickDataExplorer.prototype.updateQueryTables = function(queryResultData) {
 
+                                var emptyTables = {
+                                    article: null,
+                                    count: null,
+                                    percentage: null
+                                };
                                 var from =[];
                                 var to =[];
+
+                                
+                                // map the new content to the structure required by the lists
                                 queryResultData.fromPages.forEach(function(item, itemIndex) {
                                     from.push({
                                         article: item,
@@ -141,7 +149,6 @@ sap.ui
                                         percentage: queryResultData.fromPercentages[itemIndex]
                                     });
                                 }, this);
-
 
                                 queryResultData.toPages.forEach(function(item, itemIndex) {
                                     to.push({
@@ -151,8 +158,13 @@ sap.ui
                                     });
                                 }, this);
 
+                                // update the models with bindings to the mapped content
                                 this.getView().getModel().setProperty('/query', queryResultData.pageTitle);
                                 this.getView().getModel().setProperty('/uri', this._wikiLinkURI + queryResultData.pageTitle);
+                                // empty the model of the lists before binging the new content, this will reset any scrolling done
+                                this.getView().getModel().setProperty('/from', emptyTables); 
+                                this.getView().getModel().setProperty('/to', emptyTables);
+                                
                                 this.getView().getModel().setProperty('/from', from); 
                                 this.getView().getModel().setProperty('/to', to); 
                     };
