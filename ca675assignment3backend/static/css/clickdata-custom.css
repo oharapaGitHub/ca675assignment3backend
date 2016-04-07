@@ -40,9 +40,20 @@
  * Set the height of the query results
  */
 .queryresults {
-	height: 400px;
+	height: 250px;
+
 }
 
+.scrollmanager {
+  height: 250px !important;
+}
+
+.queryresultsheaders .sapUiHLayoutChildWrapper,
+.queryresults .sapUiHLayoutChildWrapper {
+  width: 50%;
+}
+
+.searchBar .sapMPanelBGTranslucent.sapMPanelContent
 /**
  * Style the header that holds the results of a search query
  * representin the titel

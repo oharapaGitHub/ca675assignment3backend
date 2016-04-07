@@ -40,6 +40,7 @@ sap.ui
                         // to and from lists
                         this._selectedFromListItem = null;
                         this._selectedToListItem = null;
+                        this._wikiLinkURI = 'https://en.wikipedia.org/wiki/'
 
                         // initialise the models used by the related view
                         this.initModels();
@@ -151,6 +152,7 @@ sap.ui
                                 }, this);
 
                                 this.getView().getModel().setProperty('/query', queryResultData.pageTitle);
+                                this.getView().getModel().setProperty('/uri', this._wikiLinkURI + queryResultData.pageTitle);
                                 this.getView().getModel().setProperty('/from', from); 
                                 this.getView().getModel().setProperty('/to', to); 
                     };

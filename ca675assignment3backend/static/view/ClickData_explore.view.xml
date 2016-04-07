@@ -25,110 +25,164 @@
 						<sapm:SearchField placeholder="Enter title of wiki page to search for here" search=".searchClickData"/>
 					</sapm:Toolbar>
 				</sapm:headerToolbar>
-				<sapm:Text class="searchedQuery" text="{/query}" textAlign="Center"/>
-				<sapm:FlexBox class="queryresults"
-					alignItems="Start"
-					justifyContent="Center">
+				<l:VerticalLayout class="queryresultscontent">
+				<sapm:Link class="searchedQuery searchedQueryLink" text="{/query}"  href="{/uri}" target="_blank" textAlign="Center"/>
 
-					<sapm:Table 
-						id="fromTable"
-						class="queryResultsTable frompages"
-						inset="false"
-						mode="SingleSelectMaster"
-						items="{
-							path: '/from'
-						}" 
-						selectionChange=".fromListItemSelected">
-						<sapm:headerToolbar>
-							<sapm:Toolbar>
-								<sapm:Title text="From" level="H2"/>
-							</sapm:Toolbar>
-						</sapm:headerToolbar>
-		
-						<sapm:columns>
-							<sapm:Column class="toparticles" width="74%">
-								<sapm:Text text="Top Articles" />
-							</sapm:Column>
-		
-							<sapm:Column class="articlecount"
-								minScreenWidth="Tablet"
-								demandPopin="true">
-								<sapm:Text text="Count" />
-							</sapm:Column>
-							<sapm:Column class="articlepercentage"
-								minScreenWidth="Tablet"
-								demandPopin="true"
-								hAlign="Right">
-							<sapm:Text text="%" />
-							</sapm:Column>
-						</sapm:columns>	
-	
-						<sapm:items>
-							<sapm:ColumnListItem>
-								<sapm:cells>
-									<sapm:Text
-										text="{article}" />
-									<sapm:Text
-										text="{count}" />
-									<sapm:Text
-										text="{percentage}" />
-								</sapm:cells>
-							</sapm:ColumnListItem>
-						</sapm:items>
-					</sapm:Table>
-
-					<sapm:Table
-						id="toTable" 
-						class="queryResultsTable topages"
-						inset="false"
-						mode="SingleSelectMaster"
-						items="{
-						path: '/to'
-						}"
-						selectionChange=".toListItemSelected">
-						<sapm:headerToolbar>
-							<sapm:Toolbar>
-								<sapm:Title text="To" level="H2"/>
-							</sapm:Toolbar>
-						</sapm:headerToolbar>
-		
-						<sapm:columns>
-							<sapm:Column
-								 class="toparticles" width="74%">
-								<sapm:Text text="Top Articles" />
-							</sapm:Column>
-	
-							<sapm:Column class="articlecount"
-								minScreenWidth="Tablet"
-								demandPopin="true">
-								<sapm:Text text="Count" />
-							</sapm:Column>
-							<sapm:Column class="articlepercentage"
-								minScreenWidth="Tablet"
-								demandPopin="true"
-								hAlign="Right">
-								<sapm:Text text="%" />
-							</sapm:Column>
-						</sapm:columns>	
-	
-						<sapm:items>
-							<sapm:ColumnListItem>
-								<sapm:cells>
-									<sapm:Text
-										text="{article}"
-										press=".searchClickData" />
-									<sapm:Text
-										text="{count}" />
-									<sapm:Text
-										text="{percentage}" />
-								</sapm:cells>
-							</sapm:ColumnListItem>
-						</sapm:items>
-					</sapm:Table>
+				<l:HorizontalLayout class="queryresultsheaders">
+					<sapm:ScrollContainer vertical="true" horizontal="false">
+						<sapm:Table 
+							inset="false"
+							showNoData="false">
+							<sapm:headerToolbar>
+								<sapm:Toolbar>
+									<sapm:Title text="From" level="H2"/>
+								</sapm:Toolbar>
+							</sapm:headerToolbar>
 			
-				</sapm:FlexBox>
+							<sapm:columns>
+								<sapm:Column
+									 class="toparticles" width="64%">
+									<sapm:Text text="Top Articles" />
+								</sapm:Column>
+	
+								<sapm:Column class="articlecount"
+									minScreenWidth="Tablet"
+									demandPopin="true">
+									<sapm:Text text="Count" />
+								</sapm:Column>
+								<sapm:Column class="articlepercentage"
+									minScreenWidth="Tablet"
+									demandPopin="true"
+									width="12%">
+									<sapm:Text text="%" />
+								</sapm:Column>
+							</sapm:columns>	
+	
 
+						</sapm:Table>
+					</sapm:ScrollContainer>
+					<sapm:ScrollContainer vertical="true"  horizontal="false">
+						<sapm:Table
+							inset="false"
+							showNoData="false">
+							<sapm:headerToolbar>
+								<sapm:Toolbar>
+									<sapm:Title text="To" level="H2"/>
+								</sapm:Toolbar>
+							</sapm:headerToolbar>
+		
+							<sapm:columns>
+								<sapm:Column
+									 class="toparticles" width="64%">
+									<sapm:Text text="Top Articles" />
+								</sapm:Column>
+	
+								<sapm:Column class="articlecount"
+									minScreenWidth="Tablet"
+									demandPopin="true">
+									<sapm:Text text="Count" />
+								</sapm:Column>
+								<sapm:Column class="articlepercentage"
+									minScreenWidth="Tablet"
+									demandPopin="true"
+									width="12%">
+									<sapm:Text text="%" />
+								</sapm:Column>
+							</sapm:columns>	
+						</sapm:Table>
+					</sapm:ScrollContainer>
+				</l:HorizontalLayout>
+
+				<l:HorizontalLayout class="queryresults">
+					<sapm:ScrollContainer  class="scrollmanager" vertical="true" horizontal="false">
+						<sapm:Table 
+							id="fromTable"
+							class="queryResultsContainer queryResultsTable frompages"
+							inset="false"
+							mode="SingleSelectMaster"
+							items="{
+								path: '/from'
+							}" 
+							selectionChange=".fromListItemSelected"
+							rememberSelections="false"
+							>
+
+							<sapm:columns>
+								<sapm:Column class="toparticles" width="64%">
+
+								</sapm:Column>
 			
+								<sapm:Column class="articlecount"
+									minScreenWidth="Tablet"
+									demandPopin="true"
+									>
+								</sapm:Column>
+								<sapm:Column class="articlepercentage"
+									minScreenWidth="Tablet"
+									demandPopin="true"
+									width="12%">
+								</sapm:Column>
+							</sapm:columns>	
+	
+							<sapm:items>
+								<sapm:ColumnListItem>
+									<sapm:cells>
+										<sapm:Text
+											text="{article}" />
+										<sapm:Text
+											text="{count}" />
+										<sapm:Text
+											text="{percentage}" />
+									</sapm:cells>
+								</sapm:ColumnListItem>
+							</sapm:items>
+						</sapm:Table>
+					</sapm:ScrollContainer>
+					<sapm:ScrollContainer  class="scrollmanager" vertical="true" horizontal="false">
+						<sapm:Table
+							id="toTable" 
+							class="queryResultsTable topages"
+							inset="false"
+							mode="SingleSelectMaster"
+							items="{
+								path: '/to'
+							}"
+							selectionChange=".toListItemSelected">
+		
+							<sapm:columns>
+								<sapm:Column
+									 class="toparticles" width="64%">
+								</sapm:Column>
+	
+								<sapm:Column class="articlecount"
+									minScreenWidth="Tablet"
+									demandPopin="true"
+									>
+								</sapm:Column>
+								<sapm:Column class="articlepercentage"
+									minScreenWidth="Tablet"
+									demandPopin="true"
+									width="12%">
+								</sapm:Column>
+							</sapm:columns>	
+	
+							<sapm:items>
+								<sapm:ColumnListItem>
+									<sapm:cells>
+										<sapm:Text
+											text="{article}"
+											press=".searchClickData" />
+										<sapm:Text
+											text="{count}" />
+										<sapm:Text
+											text="{percentage}" />
+									</sapm:cells>
+								</sapm:ColumnListItem>
+							</sapm:items>
+						</sapm:Table>
+					</sapm:ScrollContainer>
+				</l:HorizontalLayout>
+			</l:VerticalLayout>
 			</sapm:Panel>
 			<sapm:Panel class="clickdatachart">
 					<html:p id="chart" class="clickdatachart-p"/>
