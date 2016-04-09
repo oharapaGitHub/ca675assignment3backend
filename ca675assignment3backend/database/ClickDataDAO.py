@@ -13,43 +13,13 @@
      https://github.com/oharapaGitHub/ca675assignment3backend                                        
 """    
 import DatabaseDAO
-import pandas as pd
 
 
 class ClickDataDAO:
     """
-        Data Access Object for the click data. Provides insert, read and 
+        Data Access Object for the click data. Provides read and search
         operations for accessing the click data map reduce results.
     """    
-
-    def readCSV(self,url):
-       """
-           Retrieves the results of the map reduce operation from the outputted csv
-           file, returning it as a dataframe.
-           
-           Keyword arguments:
-           url -- the location of the csv file to be read
-       """
-       df = pd.read_csv(url, names=['PageTitle','FromPage','FromCount','ToPage','ToCount'], sep='\t', chunksize=10000, encoding='utf8');
-       return df;
-
-    def loadClickDataThroughCSV(self):
-        """
-           Loads the results of map reduce operation on the wiki click data into the database for access
-           by the application.
-           
-        """
-        clickDataUrl = './data/demo/2016_03_clickstream_UTF8_RESULTS.tsv.gz'
-        TextFileReader =self.readCSV(clickDataUrl)
-        for dataFrameIn in TextFileReader:
-            databaseConnection = DatabaseDAO.getConnection("localhost", 3306, "root", "Password1", "ca675Assignment3" )
-            for index, row in dataFrameIn.iterrows():
-                self.insertClickData(row['PageTitle'], row['FromPage'].strip(), row['FromCount'].strip(),row['ToPage'].strip(),row['ToCount'].strip(), databaseConnection)
-            try:
-                databaseConnection.commit()
-            except:     
-                databaseConnection.rollback()
-            databaseConnection.close()
 
     def readByPageTitle(self, pageTitle):
         """
@@ -62,22 +32,13 @@ class ClickDataDAO:
                         " WHERE pageTitle = %s ")
         return DatabaseDAO.read(readByPageTitle, (pageTitle))
 
-    def insertClickData(self, pageTitle, fromPage, fromCount, toPage, toCount, databaseConnection):
+    def searchByPageTitle(self, pageTitle):
         """
-           Inserts a click data record into the database
+           Retrieves and returns a record from the database based on the passed in page title parameter.
            
            Keyword arguments:
            pageTitle -- the title of the wiki page the details are to be read in relation to
-           fromPage -- an array containing the list of all page titles the current page title was navigated to from
-           fromCount -- an array containing the counts for the number of times the current page title was
-                        navigated to for each of the page titles contained in the fromPage
-                        array parameter
-           toPage -- an array containing the list of all page titles users navigated to from the current page title 
-           toCount -- an array containing the counts for the number of times each page navigated to from the 
-                       current page title 
-        """           
-        create_clickData = ("INSERT INTO clickdata "
-                   "(pagetitle, `from`, fromCount, `to`, toCount) "
-                   "VALUES (%s, %s, %s, %s, %s);")
-        add_clickData= (pageTitle, fromPage, fromCount, toPage, toCount)
-        DatabaseDAO.insert(create_clickData, add_clickData, databaseConnection)
+        """        
+        searchByPageTitle = ("SELECT pagetitle, FROM clickdata "
+                        " WHERE pageTitle LIKE %s ")
+        return DatabaseDAO.search(searchByPageTitle, (pageTitle))

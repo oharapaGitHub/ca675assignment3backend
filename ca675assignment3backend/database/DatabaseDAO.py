@@ -30,7 +30,6 @@ def getConnection(host, port, user, password, dbname):
     return db
  
    
-# Insert new record
 def read(sqlStatement, data):
     """ 
      Read a record from the database
@@ -48,7 +47,25 @@ def read(sqlStatement, data):
     db.close()   
     return result
    
-# Insert new record
+def search(sqlStatement, data):
+    """ 
+     Searchs for one or more record from the database based on the sql 
+     statement passed in
+     
+     Keyword arguments:
+     sqlStatement -- the read SQL statement to be executed
+     data -- the data to used as parameters as part of the SQL statement
+    """     
+    db = getConnection("localhost", 3306, "root", "Password1", "ca675Assignment3" )    
+    #setup cursor
+    cursor = db.cursor() 
+    # attempt to read the record    
+    cursor.execute(sqlStatement, data)
+    result = cursor.fetchall()
+    db.close()   
+    return result
+   
+
 def insert(sqlStatement, data, db):
     """ 
      Inserts a record into the database

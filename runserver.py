@@ -11,8 +11,9 @@
                                                                                                      
    Code available online:                                                                            
      https://github.com/oharapaGitHub/ca675assignment3backend                                        
-"""                                                                                               
-from ca675assignment3backend import app
+""" 
+from ca675assignment3backend import app                                                                                              
+from ca675assignment3backend import socketio
 
 # start the click data application, available on localhost:5000
-app.run(debug=True)
+socketio.run(app, debug=True)

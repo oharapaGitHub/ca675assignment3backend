@@ -42,3 +42,19 @@ def get_tasks(pageTitle):
     jsonobject = json.dumps(clickdatadetails)
     return jsonobject
 
+"""
+   Retrieves the click details for a searched page tilte.  The retrieved 
+   information include an array of the inbound pages, an array containing 
+   the counts of each inbound page, an array containing the percentage
+   representation of each inbound page from which the searched page title was
+   navigated to from, an array of the out bound pages from the searched page 
+   title, an array of the counts of each outbound page, an array containing 
+   the percentage representation of each outbound page clicked.  
+"""
+@app.route('/clickdata/page/<string:pageTitle>', methods=['GET'])
+def searchByPageTile(pageTitle):
+    clickDataImpl= ClickDataImpl()
+    clickdatadetails = clickDataImpl.readData(pageTitle)
+    jsonobject = json.dumps(clickdatadetails)
+    return jsonobject
+
