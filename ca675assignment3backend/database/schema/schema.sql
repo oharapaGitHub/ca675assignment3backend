@@ -38,13 +38,13 @@ DROP TABLE IF EXISTS `clickdata`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `clickdata` (
   `clickDataId` int(11) NOT NULL AUTO_INCREMENT COMMENT 'The primay key for the click data column',
-  `pagetitle` varchar(45) DEFAULT NULL,
+  `pagetitle` longtext,
   `from` longtext,
   `fromCount` longtext,
   `to` longtext,
   `toCount` longtext,
-  `content` json DEFAULT NULL COMMENT 'The JSON output from the map reduce execution',
-  PRIMARY KEY (`clickDataId`)
-) ENGINE=InnoDB AUTO_INCREMENT=730 DEFAULT CHARSET=utf8 COMMENT='Holds the results of the map reduce task to process the click data into a format that can be displayed on screen to a user';
+  PRIMARY KEY (`clickDataId`),
+  KEY `pageTitleIndex` (`pagetitle`(50)) USING BTREE COMMENT 'Index on the page title column, on which the read operations exist performed'
+) ENGINE=InnoDB AUTO_INCREMENT=1412251 DEFAULT CHARSET=utf8 COMMENT='Holds the results of the map reduce task to process the click data into a format that can be displayed on screen to a user';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
