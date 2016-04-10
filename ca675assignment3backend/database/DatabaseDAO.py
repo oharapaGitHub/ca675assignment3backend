@@ -14,7 +14,6 @@
 """  
 import pymysql
 import ConfigParser
-import os
 
 #connect to db
 def getConnection(): 

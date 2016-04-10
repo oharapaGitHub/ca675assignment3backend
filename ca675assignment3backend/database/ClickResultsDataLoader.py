@@ -12,9 +12,10 @@
    Code available online:                                                                            
      https://github.com/oharapaGitHub/ca675assignment3backend                                        
 """    
+import ConfigParser
 import DatabaseDAO
 import pandas as pd
-
+import os
 
 class ClickResultsDataLoader:
     """
@@ -40,7 +41,12 @@ class ClickResultsDataLoader:
            by the application.
            
         """
-        clickDataUrl = './data/demo/2016_03_clickstream_UTF8_RESULTS.tsv.gz'
+        # retrieve the data for loading into the database from the confiration file
+        config = ConfigParser.RawConfigParser()
+        print(os.getcwd())
+        config.read('./ca675assignment3backend/database/dbdata.cfg')
+        clickDataUrl = config.get('DatabaseData', 'url')
+        
         TextFileReader =self.readCSV(clickDataUrl)
         for dataFrameIn in TextFileReader:
             databaseConnection = DatabaseDAO.getConnection()
