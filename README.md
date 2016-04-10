@@ -41,17 +41,21 @@ The application requires a connection to a mysql database.  Connection details f
 ### Creating the Required Tables
 To create the required tables by the application a schema is provided. The file, schema.sql, exists with the schema folder of this repository.
 ### Loading the data into the Database 
-Before loading calling the function to load the data into the database,  the property max_allowed_packet, needs to be updated with mySQL increasing to a value such as 1004193792.  This is due to some rows of data to be inserting containing 6mb+ of data, the default maximum allowed is 4mb.  Once the property is updated, the following steps outlined below should be followed: 
+Before loading the data into the database,  the property max_allowed_packet, needs to be updated within mySQL, increasing to a value such as 1004193792.  This is due to some rows of data to be inserting containing 6mb+ of data, the default maximum allowed by mySQL is 4mb.  Once the property is updated, the following steps outlined can be followed.
 
-The data to be loaded is reference through the property, url, contained in the configuration file, dbdata.cfg. Update this reference  to point at the name/location of the file containing the data to be placed in the database.  n.b. use backslashes and be careful of folders with spaces in the name.  For example, url: C:/Users/Downloads/js_wikipedia_data/2016_03_clickstream_RESULTS.tsv.gz
+The data to be loaded is reference through a property, url, contained in the configuration file, dbdata.cfg. Update this property to reference the name/location of the file containing the data to be placed in the database.  Note, use backslashes and be careful of folders with spaces in the name.  For example, url: C:/Users/Downloads/js_wikipedia_data/2016_03_clickstream_RESULTS.tsv.gz
 
-In the Console and at the root of the repo, type the following
+Once the property has been updated, in the Console and at the root of the repo, type the following
 - import DatabaseDataLoader
 - loadDatabaseData()
 
-The data will now be loading in the mySQL database in the backgrounf, you can do a SELECT count(*) FROM ca675assignment3.clickdata; to watch it incrementally. there are about 1.4 million rows in the end.  From this point on, it is a case of starting the application and verifying it is all ok
+The data will now be loading in the mySQL database in the backgrounf, you can do a SELECT count(*) FROM ca675assignment3.clickdata; to watch it incrementally. there are about 1.4 million rows to load.  From this point on, it is a case of starting the application and verifying it is all ok
 
 # Starting the Appliction
+To start the application, from the root of the application, enter 
+- python runserver.py
+or if within IDE such as Spyder
+- open runserver.py and press f5
 
 
 
