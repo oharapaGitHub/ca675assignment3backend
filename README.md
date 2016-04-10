@@ -1,5 +1,5 @@
 
-   **Disclaimer:** Submitted to Dublin City University, School of Computing for module CA675: Cloud      
+**Disclaimer:** Submitted to Dublin City University, School of Computing for module CA675: Cloud      
    Technologies, 2016. We hereby certify that the work presented and the material contained          
    herein is our own except where explicitly stated references to other material are made.           
 
@@ -9,7 +9,7 @@
    Paul O'Hara | 14212372 | paul.ohara6@mail.dcu.ie 
    Claire Breslin | 14210826 | claire.breslin4@mail.dcu.ie
 
-# Introduction : Reader Insights with Wikipedia
+# Introduction: Reader Insights with Wikipedia
 ## The Idea
 You're a news agency or a freelance writer. You already know what the big news story of the day is - e.g. David Bowie passing away. There are so many angles you could potentially write about, but which one to pick? Ideally, you would peek inside the mind of (a lot of) your audience and find out "What angle about this do they find interesting right now? What do they want to know more about?"
 
@@ -18,12 +18,12 @@ Clickstream data can give insights into this. When people want to know more abou
 What if we could make all those clicks visible? It would give content writers a window into the minds of readers - show the flow of their interests, their ‘stream of consciousness’ e.g. recently, when the news broke that David Bowie passed away, what could Wikipedia clickstream data tell us about the topics that people were finding interesting relating to David Bowie? What other pages were they reading that led them there and what pages on the David Bowie page did they find interesting enough to click on next?
 
 # Click Stream Data Processing Workflow
-The below describes the workflow of our idea.  From it you can see the click stream data is consumed by the Click Stream Spark Engine.  The Spark Enine processes the click stream data producing the map reduced results in the format required by the application.  For both the Feburary and March click stream data over 1.4 million resulting rows are produced.  The click stream resulsta are picked up by the Click Stream Data Loader, chunked over and loaded into the database.  Finally the user can access and search the click stream results though the application.
+The below describes the workflow of our idea.  From it you can see the click stream data is consumed by the Click Stream Spark Engine.  The Spark Engine processes the click stream data producing the map reduced results in the format required by the application.  For both the February and March click stream data over 1.4 million resulting rows are produced.  The click stream results are picked up by the Click Stream Data Loader, chunked over and loaded into the database.  Finally the user can access and search the click stream results though the application.
 
 ![workflow from map reduce to application](https://cloud.githubusercontent.com/assets/6463140/14412634/aeecb910-ff5e-11e5-881a-1d52e8af3122.png)
 
 # Application Setup and Dependencies
-This application is a python flask server connecting to a mysql database.  The aplication provides an interactive web browser front end to explore the results of the map reduced click stream data.  To enable the lanuching of the appliation, the following modules need to be installed.
+This application is a python flask server connecting to a mySQL database.  The application provides an interactive web browser front end to explore the results of the map reduced click stream data.  To enable the launching of the application, the following modules need to be installed.
 - ConfigParser
 - pymsql
 - pandas
@@ -42,7 +42,7 @@ static\thirdparty
 - Sankey.js
 
 ## Database Setup
-The application requires a connection to a mysql database.  Connection details for the database are stored in the file, dbconfig.cfg, located within the Database directory.  Sample values are provided within the configuration file.   
+The application requires a connection to a mySQL database.  Connection details for the database are stored in the file, dbconfig.cfg, located within the Database directory.  Sample values are provided within the configuration file.   
 ### Creating the Required Tables
 To create the required tables by the application a schema is provided. The file, schema.sql, exists with the schema folder of this repository.
 ### Loading the data into the Database 
@@ -54,13 +54,10 @@ Once the property has been updated, in the Console and at the root of the repo, 
 - import DatabaseDataLoader
 - loadDatabaseData()
 
-The data will now be loading in the mySQL database in the backgrounf, you can do a SELECT count(*) FROM ca675assignment3.clickdata; to watch it incrementally. there are about 1.4 million rows to load.  From this point on, it is a case of starting the application and verifying it is all ok
+The data will now be loading in the mySQL database in the background, you can do a SELECT count(*) FROM ca675assignment3.clickdata; to watch it incrementally. There are about 1.4 million rows to load.  From this point on, it is a case of starting the application and verifying it is all ok
 
-# Starting the Appliction
+# Starting the Application
 To start the application, from the root of the application, enter 
 - python runserver.py
 or if within IDE such as Spyder
 - open runserver.py and press f5
-
-
-
