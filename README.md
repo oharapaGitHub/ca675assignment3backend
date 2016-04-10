@@ -17,6 +17,11 @@ Clickstream data can give insights into this. When people want to know more abou
 
 What if we could make all those clicks visible? It would give content writers a window into the minds of readers - show the flow of their interests, their ‘stream of consciousness’ e.g. recently, when the news broke that David Bowie passed away, what could Wikipedia clickstream data tell us about the topics that people were finding interesting relating to David Bowie? What other pages were they reading that led them there and what pages on the David Bowie page did they find interesting enough to click on next?
 
+# Click Stream Data Processing Workflow
+The below describes the workflow of our idea.  From it you can see the click stream data is consumed by the Click Stream Spark Engine.  The Spark Enine processes the click stream data producing the map reduced results in the format required by the application.  For both the Feburary and March click stream data over 1.4 million resulting rows are produced.  The click stream resulsta are picked up by the Click Stream Data Loader, chunked over and loaded into the database.  Finally the user can access and search the click stream results though the application.
+
+![workflow from map reduce to application](https://cloud.githubusercontent.com/assets/6463140/14412634/aeecb910-ff5e-11e5-881a-1d52e8af3122.png)
+
 # Application Setup and Dependencies
 This application is a python flask server connecting to a mysql database.  The aplication provides an interactive web browser front end to explore the results of the map reduced click stream data.  To enable the lanuching of the appliation, the following modules need to be installed.
 - ConfigParser
