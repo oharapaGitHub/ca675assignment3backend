@@ -37,8 +37,9 @@ static\thirdparty
 - Sankey.js
 
 ## Database Setup
-The application requires a connection to a mysql database.  Connection details for the database are stored in the file, dbconfig.cfg, located within the Database directory.  Sample values are provided within the configuration file.   To create the required tables by the application a schema is provided. The file, schema.sql, exists with the schema folder of this repository.
-
+The application requires a connection to a mysql database.  Connection details for the database are stored in the file, dbconfig.cfg, located within the Database directory.  Sample values are provided within the configuration file.   
+### Creating the Required Tables
+To create the required tables by the application a schema is provided. The file, schema.sql, exists with the schema folder of this repository.
 ### Loading the data into the Database 
 Before loading calling the function to load the data into the database,  the property max_allowed_packet, needs to be updated with mySQL increasing to a value such as 1004193792.  This is due to some rows of data to be inserting containing 6mb+ of data, the default maximum allowed is 4mb.  Once the property is updated, the following steps outlined below should be followed: 
 
