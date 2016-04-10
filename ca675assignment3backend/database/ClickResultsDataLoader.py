@@ -43,7 +43,7 @@ class ClickResultsDataLoader:
         clickDataUrl = './data/demo/2016_03_clickstream_UTF8_RESULTS.tsv.gz'
         TextFileReader =self.readCSV(clickDataUrl)
         for dataFrameIn in TextFileReader:
-            databaseConnection = DatabaseDAO.getConnection("localhost", 3306, "root", "Password1", "ca675Assignment3" )
+            databaseConnection = DatabaseDAO.getConnection()
             for index, row in dataFrameIn.iterrows():
                 self.insertClickData(row['PageTitle'], row['FromPage'].strip(), row['FromCount'].strip(),row['ToPage'].strip(),row['ToCount'].strip(), databaseConnection)
             try:
