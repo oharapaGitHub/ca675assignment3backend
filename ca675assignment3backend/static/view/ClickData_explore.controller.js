@@ -301,9 +301,9 @@ function() {
 		});
 		var units = "Clicks";  
 		
-		var margin = {top: 100, right: 100, bottom: 100, left: 100},  
+		var margin = {top: 100, right: 100, bottom: 50, left: 100},  
 		width = 1200 - margin.left - margin.right,  
-		height = 1000 - margin.top - margin.bottom;  
+		height = 320 - margin.top - margin.bottom;  
 		var formatNumber = d3.format(",.0f"),  // zero decimal places  
 		format = function(d) { return formatNumber(d) + " " + units; },  
 		color = d3.scale.category20(); 
