@@ -44,6 +44,18 @@
 
 }
 
+.cycleLink {
+  fill: #ffb3b3;
+  opacity: .2;
+  stroke: none;
+  stroke-linejoin: "round";
+}
+
+.cycleLink:hover {
+  opacity: .5;
+}
+
+
 .scrollmanager {
   height: 250px !important;
 }
