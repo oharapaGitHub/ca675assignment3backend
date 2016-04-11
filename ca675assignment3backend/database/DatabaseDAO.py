@@ -13,20 +13,32 @@
      https://github.com/oharapaGitHub/ca675assignment3backend                                        
 """  
 import pymysql
+import ConfigParser
 
 #connect to db
-def getConnection(host, port, user, password, dbname): 
+def getConnection(): 
     """ 
-     Retrives a connection to the mySQL database
+     Retrives a connection to the mySQL database using the configuation file
+     dbconfig.  The properties set in the configuration file are:
      
-     Keyword arguments:
      host -- the host location of the database, default "localhost"
      port -- the port number for the database, default 3306
      user -- the user to connect to the database as, default "root"
      password -- the password for the user connecting to the database as, default "Password1"
      dbname -- the name of the database to connect to, default "ca675Assignment3"
     """ 
-    db = pymysql.connect(host=host, port=port, user=user, passwd=password, db=dbname, charset="utf8" )
+    # retrive the database connection details    
+    config = ConfigParser.RawConfigParser()
+    
+    config.read('./ca675assignment3backend/database/dbconfig.cfg')
+    
+    # get the database connection
+    db = pymysql.connect(host=config.get('DatabaseDetails', 'host'), 
+                         port=config.getint('DatabaseDetails', 'port'),
+                         user=config.get('DatabaseDetails', 'user'),
+                         passwd=config.get('DatabaseDetails', 'passwd'),
+                         db=config.get('DatabaseDetails', 'db'), 
+                         charset=config.get('DatabaseDetails', 'charset'))
     return db
  
    
@@ -38,7 +50,7 @@ def read(sqlStatement, data):
      sqlStatement -- the read SQL statement to be executed
      data -- the data to used as parameters as part of the SQL statement
     """     
-    db = getConnection("localhost", 3306, "root", "Password1", "ca675Assignment3" )    
+    db = getConnection()    
     #setup cursor
     cursor = db.cursor() 
     # attempt to read the record    
@@ -56,7 +68,7 @@ def search(sqlStatement, data):
      sqlStatement -- the read SQL statement to be executed
      data -- the data to used as parameters as part of the SQL statement
     """     
-    db = getConnection("localhost", 3306, "root", "Password1", "ca675Assignment3" )    
+    db = getConnection()    
     #setup cursor
     cursor = db.cursor() 
     # attempt to read the record    
