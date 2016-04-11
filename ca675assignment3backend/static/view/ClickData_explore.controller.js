@@ -321,9 +321,9 @@ function() {
 		
 		svg.append("text")
 		.attr("x", (width / 2))             
-		.attr("y", 0 - (margin.top / 2))
+		.attr("y", 0 - (margin.top * .75))
 		.attr("text-anchor", "middle")  
-		.style("font-size", "40px")
+		.style("font-size", "24px")
 		.style("font-family", "Verdana")
 		.style("text-decoration", "underline")  
 		.text("Web Traffic Flow ");	
