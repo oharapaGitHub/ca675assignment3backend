@@ -1,0 +1,187 @@
+--------------------------------------------------------------------------------
+In this file, we manually create a small set of test data for the clickstream 
+data preparation and compute the expected result. We then compare these expected
+results to an actual test run using the same data and check that the actual
+results match the expected ones (which they do). The expected result set
+can then be used as part of an automated test framework to continuously check
+that these results stay consistent, e.g. in the face of code refactoring, etc.
+--------------------------------------------------------------------------------
+TABLE OF CONTENTS
+    STEP 1. THE RAW LOG DATA
+    STEP 2. REMOVE NOISE FROM THE DATA
+    STEP 3. MAP/REDUCE MULTIPLE NOISE PAGE REFERENCES DOWN TO A SINGLE PAGE WITH AGGREGATE COUNT
+    STEP 4. COMPUTE THE SET OF INBOUND LINKS
+    STEP 5. COMPUTE THE SET OF OUTBOUND LINKS
+    STEP 6. JOIN THE INBOUND AND OUTBOUND DATASETS TO FORM A SINGLE OVERALL PICTURE OF THE FLOW FOR EACH PAGE.
+    STEP 7. SORT THE LINKS BY CLICKS (DESCENDING) TO OBTAIN 'EXPECTED' DATASET
+    STEP 8. ACTUAL RESULTS FROM CODE RUN
+    STEP 9. COMPARE ACTUAL RESULTS TO EXPECTED RESULTS
+
+--------------
+STEP 1. THE RAW LOG DATA
+This is data is simpler than the first version, which was based on an older wikipedia version of the clickstream schema.
+--------------
+prev	curr	type	n
+other-wikipedia	Reactions_to_the_2016_Brussels_bombings	external	959
+other-google	Reactions_to_the_2016_Brussels_bombings	external	7023
+other-facebook	Reactions_to_the_2016_Brussels_bombings	external	109
+other-facebook	2016_Brussels_bombings	external	11008
+other-google	2016_Brussels_bombings	external	249562
+other-wikipedia	2016_Brussels_bombings	external	31665
+Timeline_of_ISIL-related_events_(2016)	2016_Brussels_bombings	link	985
+Reactions_to_the_2016_Brussels_bombings	2016_Brussels_bombings	link	1523
+Belgium_national_football_team	2016_Brussels_bombings	link	155
+2016_Brussels_bombings	Reactions_to_the_2016_Brussels_bombings	link	29799
+Half-mast	2016_Brussels_bombings	other	69
+Schuman_metro_station	2016_Brussels_bombings	other	48
+Main_Page	2016_Brussels_bombings	other	145244
+2016_Lahore_suicide_bombing	2016_Brussels_bombings	other	145
+Belgium	2016_Brussels_bombings	other	53
+
+--------------
+STEP 2. REMOVE NOISE FROM THE DATA
+	Change the pagename for 'external' rows  to one consistent term '(external)_websearch_social_media_etc'
+--------------
+(external)_websearch_social_media_etc	 Reactions_to_the_2016_Brussels_bombings	 959
+(external)_websearch_social_media_etc	 Reactions_to_the_2016_Brussels_bombings	 7023
+(external)_websearch_social_media_etc	 Reactions_to_the_2016_Brussels_bombings	 109
+(external)_websearch_social_media_etc	 2016_Brussels_bombings	 11008
+(external)_websearch_social_media_etc	 2016_Brussels_bombings	 249562
+(external)_websearch_social_media_etc	 2016_Brussels_bombings	 31665
+Timeline_of_ISIL-related_events_(2016)	 2016_Brussels_bombings	 985
+Reactions_to_the_2016_Brussels_bombings	 2016_Brussels_bombings	 1523
+Belgium_national_football_team	 2016_Brussels_bombings	 155
+2016_Brussels_bombings	 Reactions_to_the_2016_Brussels_bombings	 29799
+Half-mast	 2016_Brussels_bombings	 69
+Schuman_metro_station	 2016_Brussels_bombings	 48
+Main_Page	 2016_Brussels_bombings	 145244
+2016_Lahore_suicide_bombing	 2016_Brussels_bombings	 145
+Belgium	 2016_Brussels_bombings	 53
+
+--------------
+STEP 3. MAP/REDUCE MULTIPLE NOISE PAGE REFERENCES DOWN TO A SINGLE PAGE WITH AGGREGATE COUNT
+	Essentially summing the two sets of 3 external pages
+--------------
+(external)_websearch_social_media_etc	Reactions_to_the_2016_Brussels_bombings	8091
+(external)_websearch_social_media_etc	2016_Brussels_bombings	292235
+Timeline_of_ISIL-related_events_(2016)	2016_Brussels_bombings	985
+Reactions_to_the_2016_Brussels_bombings	2016_Brussels_bombings	1523
+Belgium_national_football_team	2016_Brussels_bombings	155
+2016_Brussels_bombings	Reactions_to_the_2016_Brussels_bombings	29799
+Half-mast	2016_Brussels_bombings	69
+Schuman_metro_station	2016_Brussels_bombings	48
+Main_Page	2016_Brussels_bombings	145244
+2016_Lahore_suicide_bombing	2016_Brussels_bombings	145
+Belgium	2016_Brussels_bombings	53
+
+--------------
+STEP 4. COMPUTE THE SET OF INBOUND LINKS
+	Note there are only 2 pages in this set : 2016_Brussels_bombings and Reactions_to_the_2016_Brussels_bombings
+	There are no newlines in the real output, just using them here for readability
+--------------
+2016_Brussels_bombings	[(external)_websearch_social_media_etc Timeline_of_ISIL-related_events_(2016) Reactions_to_the_2016_Brussels_bombings Belgium_national_football_team Half-mast Schuman_metro_station Main_Page 2016_Lahore_suicide_bombing Belgium]	[292235 985 1523 155 69 48 145244 145 53]
+Reactions_to_the_2016_Brussels_bombings	[(external)_websearch_social_media_etc 2016_Brussels_bombings]	[8091 29799]
+
+--------------
+STEP 5. COMPUTE THE SET OF OUTBOUND LINKS
+	Note there are 10 pages in this set - many more than in step 3.
+	There are no newlines in the real output, just using them here for readability
+--------------
+Main_Page	[2016_Brussels_bombings]	[145244]
+Timeline_of_ISIL-related_events_(2016)	[2016_Brussels_bombings]	[985]
+(external)_websearch_social_media_etc	[Reactions_to_the_2016_Brussels_bombings 2016_Brussels_bombings]	[8091 292235]
+Schuman_metro_station	[2016_Brussels_bombings]	[48]
+2016_Lahore_suicide_bombing	[2016_Brussels_bombings]	[145]
+2016_Brussels_bombings	[Reactions_to_the_2016_Brussels_bombings]	[29799]
+Belgium_national_football_team	[2016_Brussels_bombings]	[155]
+Belgium	[2016_Brussels_bombings]	[53]
+Reactions_to_the_2016_Brussels_bombings	[2016_Brussels_bombings]	[1523]
+Half-mast	[2016_Brussels_bombings]	[69]
+
+--------------
+STEP 6. JOIN THE INBOUND AND OUTBOUND DATASETS TO FORM A SINGLE OVERALL PICTURE OF THE FLOW FOR EACH PAGE.
+	Note: this is an outer join
+--------------
+Main_Page	[]	[]	[2016_Brussels_bombings]	[145244]
+Timeline_of_ISIL-related_events_(2016)	[]	[]	[2016_Brussels_bombings]	[985]
+(external)_websearch_social_media_etc	[]	[]	[Reactions_to_the_2016_Brussels_bombings 2016_Brussels_bombings]	[8091 292235]
+Schuman_metro_station	[]	[]	[2016_Brussels_bombings]	[48]
+2016_Lahore_suicide_bombing	[]	[]	[2016_Brussels_bombings]	[145]
+2016_Brussels_bombings	[(external)_websearch_social_media_etc Timeline_of_ISIL-related_events_(2016) Reactions_to_the_2016_Brussels_bombings Belgium_national_football_team Half-mast Schuman_metro_station Main_Page 2016_Lahore_suicide_bombing Belgium]	[292235 985 1523 155 69 48 145244 145 53]	[Reactions_to_the_2016_Brussels_bombings]	[29799]
+Belgium_national_football_team	[]	[]	[2016_Brussels_bombings]	[155]
+Belgium	[]	[]	[2016_Brussels_bombings]	[53]
+Reactions_to_the_2016_Brussels_bombings	[2016_Brussels_bombings (external)_websearch_social_media_etc]	[29799 8091]	[2016_Brussels_bombings]	[1523]
+Half-mast	[]	[]	[2016_Brussels_bombings]	[69]
+
+--------------
+STEP 7. SORT THE LINKS BY CLICKS (DESCENDING) TO OBTAIN 'EXPECTED' DATASET
+	We now have our finalised 'expected' dataset
+--------------
+Main_Page	[]	[]	[2016_Brussels_bombings]	[145244]
+Timeline_of_ISIL-related_events_(2016)	[]	[]	[2016_Brussels_bombings]	[985]
+(external)_websearch_social_media_etc	[]	[]	[2016_Brussels_bombings Reactions_to_the_2016_Brussels_bombings]	[292235 8091]
+Schuman_metro_station	[]	[]	[2016_Brussels_bombings]	[48]
+2016_Lahore_suicide_bombing	[]	[]	[2016_Brussels_bombings]	[145]
+2016_Brussels_bombings	[(external)_websearch_social_media_etc Main_Page Reactions_to_the_2016_Brussels_bombings Timeline_of_ISIL-related_events_(2016) Belgium_national_football_team 2016_Lahore_suicide_bombing Half-mast Belgium Schuman_metro_station]	[292235 145244 1523 985 155 145 69 53 48]	[Reactions_to_the_2016_Brussels_bombings]	[29799]
+Belgium_national_football_team	[]	[]	[2016_Brussels_bombings]	[155]
+Belgium	[]	[]	[2016_Brussels_bombings]	[53]
+Reactions_to_the_2016_Brussels_bombings	[2016_Brussels_bombings (external)_websearch_social_media_etc]	[29799 8091]	[2016_Brussels_bombings]	[1523]
+Half-mast	[]	[]	[2016_Brussels_bombings]	[69]
+
+--------------
+STEP 8. ACTUAL RESULTS FROM CODE RUN
+--------------
+Main_Page	[]	[]	[2016_Brussels_bombings]	[145244]
+Timeline_of_ISIL-related_events_(2016)	[]	[]	[2016_Brussels_bombings]	[985]
+(external)_websearch_social_media_etc	[]	[]	[2016_Brussels_bombings Reactions_to_the_2016_Brussels_bombings]	[292235 8091]
+Schuman_metro_station	[]	[]	[2016_Brussels_bombings]	[48]
+2016_Lahore_suicide_bombing	[]	[]	[2016_Brussels_bombings]	[145]
+2016_Brussels_bombings	[(external)_websearch_social_media_etc Main_Page Reactions_to_the_2016_Brussels_bombings Timeline_of_ISIL-related_events_(2016) Belgium_national_football_team 2016_Lahore_suicide_bombing Half-mast Belgium Schuman_metro_station]	[292235 145244 1523 985 155 145 69 53 48]	[Reactions_to_the_2016_Brussels_bombings]	[29799]
+Belgium_national_football_team	[]	[]	[2016_Brussels_bombings]	[155]
+Belgium	[]	[]	[2016_Brussels_bombings]	[53]
+Reactions_to_the_2016_Brussels_bombings	[2016_Brussels_bombings (external)_websearch_social_media_etc]	[29799 8091]	[2016_Brussels_bombings]	[1523]
+Half-mast	[]	[]	[2016_Brussels_bombings]	[69]
+
+--------------
+STEP 9. COMPARE ACTUAL RESULTS TO EXPECTED RESULTS
+	They match :-)
+--------------
+EXPECTED : Main_Page	[]	[]	[2016_Brussels_bombings]	[145244]
+ACTUAL   : Main_Page	[]	[]	[2016_Brussels_bombings]	[145244]
+RESULT   : CONFIRMED
+
+EXPECTED : Timeline_of_ISIL-related_events_(2016)	[]	[]	[2016_Brussels_bombings]	[985]
+ACTUAL   : Timeline_of_ISIL-related_events_(2016)	[]	[]	[2016_Brussels_bombings]	[985]
+RESULT   : CONFIRMED
+
+EXPECTED : (external)_websearch_social_media_etc	[]	[]	[2016_Brussels_bombings Reactions_to_the_2016_Brussels_bombings]	[292235 8091]
+ACTUAL   : (external)_websearch_social_media_etc	[]	[]	[2016_Brussels_bombings Reactions_to_the_2016_Brussels_bombings]	[292235 8091]
+RESULT   : CONFIRMED
+
+EXPECTED : Schuman_metro_station	[]	[]	[2016_Brussels_bombings]	[48]
+ACTUAL   : Schuman_metro_station	[]	[]	[2016_Brussels_bombings]	[48]
+RESULT   : CONFIRMED
+
+EXPECTED : 2016_Lahore_suicide_bombing	[]	[]	[2016_Brussels_bombings]	[145]
+ACTUAL   : 2016_Lahore_suicide_bombing	[]	[]	[2016_Brussels_bombings]	[145]
+RESULT   : CONFIRMED
+
+EXPECTED : 2016_Brussels_bombings	[(external)_websearch_social_media_etc Main_Page Reactions_to_the_2016_Brussels_bombings Timeline_of_ISIL-related_events_(2016) Belgium_national_football_team 2016_Lahore_suicide_bombing Half-mast Belgium Schuman_metro_station]	[292235 145244 1523 985 155 145 69 53 48]	[Reactions_to_the_2016_Brussels_bombings]	[29799]
+ACTUAL   : 2016_Brussels_bombings	[(external)_websearch_social_media_etc Main_Page Reactions_to_the_2016_Brussels_bombings Timeline_of_ISIL-related_events_(2016) Belgium_national_football_team 2016_Lahore_suicide_bombing Half-mast Belgium Schuman_metro_station]	[292235 145244 1523 985 155 145 69 53 48]	[Reactions_to_the_2016_Brussels_bombings]	[29799]
+RESULT   : CONFIRMED
+
+EXPECTED : Belgium_national_football_team	[]	[]	[2016_Brussels_bombings]	[155]
+ACTUAL   : Belgium_national_football_team	[]	[]	[2016_Brussels_bombings]	[155]
+RESULT   : CONFIRMED
+
+EXPECTED : Belgium	[]	[]	[2016_Brussels_bombings]	[53]
+ACTUAL   : Belgium	[]	[]	[2016_Brussels_bombings]	[53]
+RESULT   : CONFIRMED
+
+EXPECTED : Reactions_to_the_2016_Brussels_bombings	[2016_Brussels_bombings (external)_websearch_social_media_etc]	[29799 8091]	[2016_Brussels_bombings]	[1523]
+ACTUAL   : Reactions_to_the_2016_Brussels_bombings	[2016_Brussels_bombings (external)_websearch_social_media_etc]	[29799 8091]	[2016_Brussels_bombings]	[1523]
+RESULT   : CONFIRMED
+
+EXPECTED : Half-mast	[]	[]	[2016_Brussels_bombings]	[69]
+ACTUAL   : Half-mast	[]	[]	[2016_Brussels_bombings]	[69]
+RESULT   : CONFIRMED
