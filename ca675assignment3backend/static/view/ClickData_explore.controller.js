@@ -220,14 +220,45 @@ function() {
 		//prepare the data - an array of objects
 		var data_nodes = [];
 		
+
 		
+		//*********LINKS******************
+		var data_links = [];
+		//setting up the links coming 
+		ResultData.fromPages.forEach(function(item, itemIndex) {
+			data_links.push({
+				source: item+" ",
+				source_name: item,
+				target: ResultData.pageTitle,
+				value: ResultData.fromCounts[itemIndex],
+				percentage: ResultData.fromPercentages[itemIndex],
+				
+			});
+		}, this);
+		
+		ResultData.toPages.forEach(function(item, itemIndex) {
+			data_links.push({
+				source: ResultData.pageTitle,
+				source_name: ResultData.pageTitle,
+				target: " "+item,
+				target_name: item,
+				value: ResultData.toCounts[itemIndex],
+				percentage: ResultData.toPercentages[itemIndex],
+			});
+		}, this);
+		
+		// turn data into a JSON file
+		var json_links = JSON.stringify(data_links);
+		
+				
 		//*********NODES*************
 		//get a list of all the inbound nodes
 		ResultData.fromPages.forEach(function(item, itemIndex) {
 			
 			
 			data_nodes.push({
-				name: ResultData.fromPages[itemIndex]
+				name: ResultData.fromPages[itemIndex]+" ",
+				real_name: ResultData.fromPages[itemIndex]
 			}); 
 			
 		}, this);
@@ -235,7 +266,8 @@ function() {
 		//get a list of all the outbound nodes
 		ResultData.toPages.forEach(function(item, itemIndex) {
 			data_nodes.push({
-				name: ResultData.toPages[itemIndex]
+				name: " "+ResultData.toPages[itemIndex],
+				real_name: ResultData.toPages[itemIndex]
 			});
 		}, this);	
 		
@@ -251,39 +283,10 @@ function() {
 					--x;
 				}
 			}
-			// add
 		}
-		
-		
-
-		var final_length = data_nodes.length;
 		
 		var json_nodes = JSON.stringify(data_nodes);
 		
-		//*********LINKS******************
-		var data_links = [];
-		//setting up the links coming 
-		ResultData.fromPages.forEach(function(item, itemIndex) {
-			data_links.push({
-				source: item,
-				target: ResultData.pageTitle,
-				value: ResultData.fromCounts[itemIndex],
-				percentage: ResultData.fromPercentages[itemIndex],
-				
-			});
-		}, this);
-		
-		ResultData.toPages.forEach(function(item, itemIndex) {
-			data_links.push({
-				source: ResultData.pageTitle,
-				target: item,
-				value: ResultData.toCounts[itemIndex],
-				percentage: ResultData.toPercentages[itemIndex],
-			});
-		}, this);
-		
-		// turn data into a JSON file
-		var json_links = JSON.stringify(data_links);
 		var json_data = "{ \"nodes\": " + json_nodes + ", \"links\": " + json_links + "}";
 		
 		//parse JSON variable to access data elements		
