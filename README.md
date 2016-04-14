@@ -61,5 +61,5 @@ To start the application, from the root of the application, enter
 - python runserver.py
 or if within IDE such as Spyder
 - open runserver.py and press f5
-- Launch Firefox browser (the one we tested against) and go to http://localhost:5000 
+- Launch Firefox browser (the one we tested against) and go to [http://localhost:5000](http://localhost:5000)
 - Grab some popcorn and enjoy browsing!
