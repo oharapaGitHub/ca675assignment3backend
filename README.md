@@ -48,7 +48,7 @@ To create the required tables by the application a schema is provided. The file,
 ### Loading the data into the Database 
 Before loading the data into the database,  the property max_allowed_packet, needs to be updated within mySQL, increasing to a value such as 1004193792.  This is due to some rows of data to be inserting containing 6mb+ of data, the default maximum allowed by mySQL is 4mb.  Once the property is updated, the following steps outlined can be followed.
 
-The data to be loaded is reference through a property, url, contained in the configuration file, dbdata.cfg. Update this property to reference the name/location of the file containing the data to be placed in the database.  Note, use backslashes and be careful of folders with spaces in the name.  For example, url: C:/Users/Downloads/js_wikipedia_data/2016_03_clickstream_RESULTS.tsv.gz
+The data to be loaded is referenced through a property, url, contained in the configuration file, dbdata.cfg. Update this property to reference the name/location of the file containing the data to be placed in the database.  Note, use backslashes and be careful of folders with spaces in the name.  For example, url: C:/Users/Downloads/js_wikipedia_data/2016_03_clickstream_RESULTS.tsv.gz
 
 Once the property has been updated, in the Console and at the root of the repo, type the following
 - import DatabaseDataLoader
@@ -61,3 +61,5 @@ To start the application, from the root of the application, enter
 - python runserver.py
 or if within IDE such as Spyder
 - open runserver.py and press f5
+- Launch Firefox browser (the one we tested against) and go to http://localhost:5000 
+- Grab some popcorn and enjoy browsing!
